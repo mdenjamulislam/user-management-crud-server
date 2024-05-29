@@ -33,6 +33,14 @@ async function run() {
         app.post('/users', async (req, res) => {
             const newUser = req.body;
             console.log('adding new user: ', newUser);
+            const result = await userCollection.insertOne(newUser);
+            res.send(result);
+        })
+
+        app.get('/users', async (req, res) => {
+            const cursor = userCollection.find({});
+            const users = await cursor.toArray();
+            res.send(users);
         })
 
     } finally {
