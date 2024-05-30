@@ -50,6 +50,31 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/users/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const user = await userCollection.findOne(query);
+            res.send(user);
+        })
+
+        app.put('users/:id', async (req, res) => {
+            const id = req.params.id;
+            const updateUser = req.body;
+            const filter = { _id: new ObjectId(id) };
+            const option = { upset: true };
+            const updateDoc = {
+                $set: {
+                    name: updateUser.name,
+                    email: updateUser.email,
+                    phoneNumber: updateUser.phoneNumber,
+                    address: updateUser.address,
+                    photoUrl: updateUser.photoUrl
+                }
+            }
+            const result = await userCollection.updateOne(filter, updateDoc, option);
+            res.send(result);
+        })
+
     } finally {
         // Ensures that the client will close when you finish/error
         // await client.close();
