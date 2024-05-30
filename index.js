@@ -57,11 +57,12 @@ async function run() {
             res.send(user);
         })
 
-        app.put('users/:id', async (req, res) => {
+        app.put('/users/:id', async (req, res) => {
             const id = req.params.id;
+            console.log('updating user: ', id);
             const updateUser = req.body;
             const filter = { _id: new ObjectId(id) };
-            const option = { upset: true };
+            const options = { upsert: true };
             const updateDoc = {
                 $set: {
                     name: updateUser.name,
@@ -71,7 +72,7 @@ async function run() {
                     photoUrl: updateUser.photoUrl
                 }
             }
-            const result = await userCollection.updateOne(filter, updateDoc, option);
+            const result = await userCollection.updateOne(filter, updateDoc, options);
             res.send(result);
         })
 
