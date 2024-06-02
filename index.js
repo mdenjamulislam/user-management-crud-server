@@ -32,7 +32,6 @@ async function run() {
 
         app.post('/users', async (req, res) => {
             const newUser = req.body;
-            console.log('adding new user: ', newUser);
             const result = await userCollection.insertOne(newUser);
             res.send(result);
         })
@@ -59,7 +58,6 @@ async function run() {
 
         app.put('/users/:id', async (req, res) => {
             const id = req.params.id;
-            console.log('updating user: ', id);
             const updateUser = req.body;
             const filter = { _id: new ObjectId(id) };
             const options = { upsert: true };
